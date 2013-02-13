@@ -1,5 +1,12 @@
 module Spree::Search
   class ThinkingSphinx < Spree::Core::Search::Base
+
+    def retrieve_products
+      @products_scope = get_base_scope
+      curr_page = page || 1
+      @products = @products_scope.page(curr_page).per(per_page)
+    end
+
     protected
     # method should return AR::Relations with conditions {:conditions=> "..."} for Product model
     def get_products_conditions_for(base_scope,query)
@@ -49,7 +56,7 @@ module Spree::Search
         @properties[:suggest] = products.suggestion
       end
 
-      Spree::Product.where(:id => products.map(&:id))
+      products
     end
 
     def prepare(params)
