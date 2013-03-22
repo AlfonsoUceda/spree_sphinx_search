@@ -43,6 +43,8 @@ Spree::Product.class_eval do
     indexes :meta_description
     indexes :meta_keywords
 
+    indexes master.sku
+    
     indexes taxons.name, :as => :taxon, :facet => true
     has taxons(:id), :as => :taxon_ids
     Spree::Taxon.find_each do |taxon|
